@@ -1,0 +1,372 @@
+---
+import Layout from "~layouts/Main.astro";
+import seo from "~data/seo.js";
+
+import tumblr from "~data/tumblr.json";
+import travel from "~data/travel";
+import personal from "~data/personal";
+
+let { blog, posts } = tumblr;
+
+let layoutProps = {
+  title: seo.title("Canada 18"),
+  keywords: seo.keywords("canada"),
+  description: "I'm a " + seo.job.title + ". " + seo.job.description,
+};
+
+let heroImageProps = {
+  class: "grid-image",
+  style: { backgroundImage: `url(${personal.hero_img.src})` },
+};
+---
+
+<Layout {...layoutProps}>
+  <div class="hero-container">
+    <div class="hero-wrap">
+      <div {...heroImageProps}>
+        <span class="grid-alt-text">{personal.hero_img.alt}</span>
+      </div>
+      <div class="hero-description">
+        <h3>{blog.title}</h3>
+        <div class="dashboard">
+          <div class="dial-container">
+            <div class="dial-display miles-gone">0</div>
+            <h6 class="dial-title">miles gone</h6>
+          </div>
+          <div class="dial-container">
+            <div class="dial-display travel-hours">0</div>
+            <h6 class="dial-title">travel hours</h6>
+          </div>
+          <div class="dial-container">
+            <div class="dial-display time-zones">0</div>
+            <h6 class="dial-title">time zones</h6>
+          </div>
+        </div>
+        <p>{blog.description}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-wrap">
+      <div class="progress-line">
+        <div class="progress-fill">
+          <div class="progress-dot"></div>
+        </div>
+      </div>
+    </div>
+    <div class="progress-cities">
+      {
+        travel.map(function (location) {
+          let { city, label, miles, hours, zones, hide } = location;
+
+          let data = {
+            "class:list": ["city-button", label],
+            "data-label": label,
+            "data-miles": miles,
+            "data-hours": hours,
+            "data-zones": zones,
+            style: { display: hide ? "none" : "initial" },
+          };
+
+          return (
+            <button {...data}>
+              <h5 class="city-title">{city}</h5>
+            </button>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <div class="posts-container">
+    <div class="posts-wrap">
+      {
+        posts.map(function (post, index) {
+          let { photos } = post;
+
+          let photo = {
+            src: photos[0].original_size.url,
+            alt: photos[0].caption,
+          };
+
+          let backgroundImage = `url(${photo.src})`;
+
+          let display = index > 5 ? "none" : "initial";
+
+          let gridImage = {
+            class: "grid-image",
+            style: {
+              backgroundImage,
+              display,
+            },
+          };
+
+          return (
+            <div {...gridImage}>
+              <span class="grid-alt-text">{photo.src}</span>
+            </div>
+          );
+        })
+      }
+    </div>
+    <div class="show-wrap">
+      <h4 class="show-count">
+        Showing <span class="length">6</span> of {posts.length}
+      </h4>
+      <button class="show-more">Show more</button>
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  @import "~styles/mixins";
+
+  $size-image: 18.75rem; // 300
+
+  $height-line: 0.3125rem; // 5
+
+  $height-line--half: $height-line * 0.5;
+
+  $height-title: 1.25rem; // 20
+
+  $height-title--half: $height-title * 0.5;
+
+  $size-dot: $height-line * 4;
+
+  $size-dot--half: $size-dot * 0.5;
+
+  $gap-grid: $size-dot;
+
+  $padding-dial: 0.5rem; // 8
+
+  $width-wrap: ($size-image * 3) + ($gap-grid * 2);
+
+  $width-progress-container--sm: adjustProgressWidth(15rem);
+
+  $width-progress-container--lg: adjustProgressWidth(44rem);
+
+  $width-progress-item--sm: $width-progress-container--sm * 0.125;
+
+  $width-progress-item--lg: $width-progress-container--lg * 0.125;
+
+  $color-cities: #696969;
+
+  $color-page: gainsboro;
+
+  $color-text: black;
+
+  @mixin grid-wrap {
+    max-width: toRem(340);
+    grid-gap: $gap-grid;
+    margin-right: auto;
+    margin-left: auto;
+    display: grid;
+
+    @include medium-up {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: toRem(932);
+    }
+  }
+
+  @mixin grid-image {
+    background-color: $color-page;
+    background-position: center;
+    border: 1px solid $color-text;
+    background-size: cover;
+    align-items: center;
+    position: relative;
+    padding-top: 100%;
+    overflow: hidden;
+    display: grid;
+  }
+
+  @mixin grid-alt-text {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .grid-wrap {
+    @include grid-wrap;
+  }
+
+  .grid-alt-text {
+    @include grid-alt-text;
+  }
+
+  .posts-wrap {
+    @include grid-wrap;
+  }
+
+  .hero-wrap {
+    @include grid-wrap;
+    margin-bottom: -1px;
+  }
+
+  .hero-description {
+    @include medium-down {
+      text-align: center;
+    }
+    @include medium-up {
+      padding-bottom: toRem(16);
+      padding-left: toRem(16);
+      grid-column: span 2;
+    }
+  }
+
+  .grid-image {
+    @include grid-image;
+  }
+
+  .hero-description {
+    padding-bottom: toRem(40);
+  }
+
+  .hero-container {
+    border-bottom: 1px solid $color-text;
+    padding-right: toRem(40);
+    padding-left: toRem(40);
+    padding-top: toRem(60);
+  }
+
+  .progress-container {
+    max-width: $width-progress-container--sm;
+    grid-auto-rows: toRem(4) toRem(60);
+    padding-bottom: toRem(40);
+    padding-top: toRem(40);
+    min-height: toRem(248);
+    margin-right: auto;
+    margin-left: auto;
+    display: grid;
+
+    @include medium-up {
+      max-width: $width-progress-container--lg;
+    }
+  }
+
+  .progress-wrap {
+    grid-template-columns: 1fr 14fr 1fr;
+    display: grid;
+  }
+
+  .progress-line {
+    background-color: $color-cities;
+    height: $height-line;
+    overflow: visible;
+    grid-column: 2;
+    display: flex;
+  }
+
+  .progress-fill {
+    background-color: $color-text;
+    height: $height-line;
+    position: relative;
+  }
+
+  .progress-dot {
+    top: -$size-dot--half + $height-line--half;
+    right: -$size-dot--half;
+    background: $color-text;
+    border-radius: 50%;
+    position: absolute;
+    height: $size-dot;
+    width: $size-dot;
+  }
+
+  .progress-cities {
+    grid-template-columns: repeat(8, $width-progress-item--sm);
+    display: grid;
+
+    @include medium-up {
+      grid-template-columns: repeat(8, $width-progress-item--lg);
+    }
+  }
+
+  h3 {
+    text-transform: uppercase;
+  }
+
+  .city-button {
+    background-color: transparent;
+    position: relative;
+    top: toRem(-4);
+    border: none;
+    padding: 0;
+  }
+
+  .city-title {
+    line-height: $height-title;
+    left: -$height-title--half;
+    text-transform: uppercase;
+    transform-origin: bottom;
+    transform: rotate(90deg);
+    top: $height-title--half;
+    color: $color-cities;
+    position: relative;
+    margin: 0;
+
+    @include medium-up {
+      top: $height-title * 2;
+    }
+  }
+
+  .dashboard {
+    margin-bottom: toRem(20);
+    gap: toRem(12);
+    display: flex;
+  }
+
+  .dial-display {
+    padding: $padding-dial ($padding-dial * 2);
+    background-color: white;
+    border: 1px solid $color-text;
+    margin-bottom: toRem(12);
+  }
+
+  .dial-display.miles-gone {
+    min-width: toRem(88);
+  }
+
+  .dial-display.travel-hours {
+    min-width: toRem(70);
+  }
+
+  .dial-display.time-zones {
+    min-width: toRem(58);
+  }
+
+  .dial-title {
+    text-transform: uppercase;
+    font-weight: normal;
+    font-style: italic;
+  }
+
+  .posts-container {
+    padding-bottom: toRem(60);
+    padding-right: toRem(40);
+    padding-left: toRem(40);
+  }
+
+  .show-wrap {
+    @include wrap;
+    margin-top: toRem(60);
+    text-align: center;
+  }
+
+  .show-count {
+    color: $color-cities;
+    font-weight: normal;
+    font-style: italic;
+  }
+
+  .show-more {
+    background-color: black;
+    font-size: inherit;
+    font-weight: bold;
+    color: white;
+    padding: 1rem;
+    border: 0;
+  }
+</style>

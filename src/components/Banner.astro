@@ -1,0 +1,21 @@
+<div id="footer" class="container">
+  <slot />
+</div>
+
+<style lang="scss">
+  @import "~styles/mixins";
+
+  .container {
+    background-color: black;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 1rem;
+  }
+
+  .link {
+    @include focus {
+      @include lemon-box;
+    }
+  }
+</style>
