@@ -1,0 +1,44 @@
+---
+import tumblr from "~data/tumblr.json";
+
+let { posts } = tumblr;
+---
+
+<div class="show-container">
+  <div class="show-wrap">
+    <h4 class="show-count">
+      Showing <span class="length">6</span> of {posts.length}
+    </h4>
+    <button class="show-more">Show more</button>
+  </div>
+</div>
+
+<style lang="scss">
+  @import "~styles/mixins";
+
+  .show-container {
+    padding-bottom: toRem(60);
+    padding-right: toRem(40);
+    padding-left: toRem(40);
+  }
+
+  .show-wrap {
+    @include wrap;
+    text-align: center;
+  }
+
+  .show-count {
+    color: $color-cities;
+    font-weight: normal;
+    font-style: italic;
+  }
+
+  .show-more {
+    background-color: black;
+    font-size: inherit;
+    font-weight: bold;
+    color: white;
+    padding: 1rem;
+    border: 0;
+  }
+</style>

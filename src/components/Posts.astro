@@ -1,0 +1,59 @@
+---
+import tumblr from "~data/tumblr.json";
+let { posts } = tumblr;
+---
+
+<div class="posts-container">
+  <div class="posts-wrap">
+    {
+      posts.map(function (post, index) {
+        let { photos } = post;
+
+        let photo = {
+          src: photos[0].original_size.url,
+          alt: photos[0].caption,
+        };
+
+        let backgroundImage = `url(${photo.src})`;
+
+        let display = index > 5 ? "none" : "initial";
+
+        let gridImage = {
+          class: "grid-image",
+          style: {
+            backgroundImage,
+            display,
+          },
+        };
+
+        return (
+          <div {...gridImage}>
+            <span class="grid-alt-text">{photo.src}</span>
+          </div>
+        );
+      })
+    }
+  </div>
+</div>
+
+<style lang="scss">
+  @import "~styles/mixins";
+
+  .posts-container {
+    padding-bottom: toRem(60);
+    padding-right: toRem(40);
+    padding-left: toRem(40);
+  }
+
+  .posts-wrap {
+    @include grid-wrap;
+  }
+
+  .grid-alt-text {
+    @include grid-alt-text;
+  }
+
+  .grid-image {
+    @include grid-image;
+  }
+</style>

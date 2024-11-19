@@ -1,0 +1,39 @@
+@import "paully/vars";
+
+@import "~styles/functions";
+
+$size-image: 18.75rem; // 300
+
+$height-line: 0.3125rem; // 5
+
+$height-line--half: $height-line * 0.5;
+
+$height-title: 1.25rem; // 20
+
+$height-title--half: $height-title * 0.5;
+
+$size-dot: $height-line * 4;
+
+$size-dot--half: $size-dot * 0.5;
+
+$gap-grid: $size-dot;
+
+$padding-dial: 0.5rem; // 8
+
+$width-wrap: (
+  $size-image * 3) + ($gap-grid * 2
+);
+
+$width-progress-container--sm: adjustProgressWidth(15rem);
+
+$width-progress-container--lg: adjustProgressWidth(44rem);
+
+$width-progress-item--sm: $width-progress-container--sm * 0.125;
+
+$width-progress-item--lg: $width-progress-container--lg * 0.125;
+
+$color-cities: #696969;
+
+$color-page: gainsboro;
+
+$color-text: black;

@@ -1,0 +1,121 @@
+---
+import progress from "~data/progress";
+---
+
+<div class="show-container">
+  <div class="progress-container">
+    <div class="progress-wrap">
+      <div class="progress-line">
+        <div class="progress-fill">
+          <div class="progress-dot"></div>
+        </div>
+      </div>
+    </div>
+    <div class="progress-cities">
+      {
+        progress.map(function (location) {
+          let { city, label, miles, hours, zones, hide } = location;
+
+          let data = {
+            "class:list": ["city-button", label],
+            "data-label": label,
+            "data-miles": miles,
+            "data-hours": hours,
+            "data-zones": zones,
+            style: { display: hide ? "none" : "initial" },
+          };
+
+          return (
+            <button {...data}>
+              <h5 class="city-title">{city}</h5>
+            </button>
+          );
+        })
+      }
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  @import "~styles/mixins";
+
+  .show-container {
+    padding-bottom: toRem(60);
+    padding-right: toRem(40);
+    padding-left: toRem(40);
+  }
+
+  .progress-container {
+    @include wrap;
+    max-width: $width-progress-container--sm;
+    grid-auto-rows: toRem(4) toRem(60);
+    min-height: toRem(160);
+    display: grid;
+
+    @include medium-up {
+      max-width: $width-progress-container--lg;
+    }
+  }
+
+  .progress-wrap {
+    grid-template-columns: 1fr 14fr 1fr;
+    display: grid;
+  }
+
+  .progress-line {
+    background-color: $color-cities;
+    height: $height-line;
+    overflow: visible;
+    grid-column: 2;
+    display: flex;
+  }
+
+  .progress-fill {
+    background-color: $color-text;
+    height: $height-line;
+    position: relative;
+  }
+
+  .progress-dot {
+    top: -$size-dot--half + $height-line--half;
+    right: -$size-dot--half;
+    background: $color-text;
+    border-radius: 50%;
+    position: absolute;
+    height: $size-dot;
+    width: $size-dot;
+  }
+
+  .progress-cities {
+    grid-template-columns: repeat(8, $width-progress-item--sm);
+    display: grid;
+
+    @include medium-up {
+      grid-template-columns: repeat(8, $width-progress-item--lg);
+    }
+  }
+
+  .city-button {
+    background-color: transparent;
+    position: relative;
+    top: toRem(-4);
+    border: none;
+    padding: 0;
+  }
+
+  .city-title {
+    line-height: $height-title;
+    left: -$height-title--half;
+    text-transform: uppercase;
+    transform-origin: bottom;
+    transform: rotate(90deg);
+    top: $height-title--half;
+    color: $color-cities;
+    position: relative;
+    margin: 0;
+
+    @include medium-up {
+      top: $height-title * 2;
+    }
+  }
+</style>

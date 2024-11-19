@@ -1,8 +1,15 @@
 ---
 import "~styles/global.scss";
 import Head from "~components/Head.astro";
-import Header from "~components/Header.astro";
-import Footer from "~components/Footer.astro";
+import { Banner } from "paully";
+import personal from "~data/personal.js";
+
+const { email } = personal;
+
+const linkProps = {
+  href: `mailto:${email}`,
+  class: "link",
+};
 ---
 
 <script>
@@ -14,8 +21,16 @@ import Footer from "~components/Footer.astro";
 <html lang="en">
   <Head {...Astro.props} />
   <body data-state="visible">
-    <Header />
+    <Banner>
+      <span>
+        Built using the Tumblr API and GSAP. If you have any questions, email
+      </span>
+      <a {...linkProps}>{email}</a>
+    </Banner>
     <slot />
-    <Footer />
+    <Banner>
+      <span>Say hello :)</span>
+      <a {...linkProps}>{email}</a>
+    </Banner>
   </body>
 </html>

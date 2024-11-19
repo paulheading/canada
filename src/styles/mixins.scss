@@ -1,8 +1,7 @@
-@import "~styles/variables";
-@import "~styles/functions";
+@import "paully/mixins";
 
-@import "~styles/mixins/breakpoints";
-@import "~styles/mixins/buttons";
+@import "~styles/vars";
+
 @import "~styles/mixins/focus";
 @import "~styles/mixins/folder";
 @import "~styles/mixins/form";
@@ -12,7 +11,6 @@
 @import "~styles/mixins/row";
 @import "~styles/mixins/spotify";
 @import "~styles/mixins/theme";
-@import "~styles/mixins/typography";
 
 @mixin size($value) {
   height: $value;
@@ -204,4 +202,38 @@
   a:not(.anchor) {
     @content;
   }
+}
+
+// CUSTOM CANADA MIXINS
+
+@mixin grid-wrap {
+  max-width: toRem(340);
+  grid-gap: $gap-grid;
+  margin-right: auto;
+  margin-left: auto;
+  display: grid;
+
+  @include medium-up {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: toRem(932);
+  }
+}
+
+@mixin grid-image {
+  background-color: $color-page;
+  background-position: center;
+  border: 1px solid $color-text;
+  background-size: cover;
+  align-items: center;
+  position: relative;
+  padding-top: 100%;
+  overflow: hidden;
+  display: grid;
+}
+
+@mixin grid-alt-text {
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
